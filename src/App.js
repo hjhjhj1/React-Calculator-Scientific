@@ -6,12 +6,15 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { IoIosSwitch } from "react-icons/io";
 import { FaBackspace } from "react-icons/fa";
+import { saveHistory } from "./historyStorage";
+import DataAnalysis from "./DataAnalysis";
 import "./App.css";
 
 function App() {
   const [result, setResult] = useState("");
   const inputRef = useRef(null);
   const [show, setShow] = useState(false);
+  const [showAnalysis, setShowAnalysis] = useState(false);
 
   function numberLog10() {
     setResult(Math.log10(result).toString());
@@ -65,24 +68,44 @@ function App() {
   }
 
   function calculate() {
-    //if (result === "log.name") {
-    //setResult(Math.log(result).toString());
-    //}
-    //else {
+    const expression = result;
     try {
-      setResult(eval(result).toString());
+      const calcResult = eval(result).toString();
+      setResult(calcResult);
+      saveHistory({
+        expression,
+        result: calcResult,
+        success: true,
+        timestamp: new Date().toISOString()
+      });
     } catch (error) {
       setResult(alert("Clear All then Enter again"));
+      saveHistory({
+        expression,
+        error: error.message,
+        success: false,
+        timestamp: new Date().toISOString()
+      });
     }
-    //}
   }
   return (
     <div className="App">
-      <Container fluid>
-        <div>
-          <h2> React Calculator </h2>
-          <br />
-          <br />
+      {showAnalysis ? (
+        <DataAnalysis onBack={() => setShowAnalysis(false)} />
+      ) : (
+        <Container fluid>
+          <div>
+            <h2> React Calculator </h2>
+            <br />
+            <Button
+              variant="info"
+              onClick={() => setShowAnalysis(true)}
+              className="mb-3"
+            >
+              查看数据分析
+            </Button>
+            <br />
+            <br />
           <Row className="justify-content-md-center" xs={1} md={4} lg={4}>
             <Form>
               <input
@@ -394,6 +417,7 @@ function App() {
           </Row>
         </div>
       </Container>
+      )}
     </div>
   );
 }
