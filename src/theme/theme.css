@@ -1,0 +1,162 @@
+:root {
+  --color-background: rgb(205, 224, 247);
+  --color-foreground: #000000;
+  --color-primary: #007bff;
+  --color-secondary: #6c757d;
+  --color-success: #28a745;
+  --color-danger: #dc3545;
+  --color-warning: #ffc107;
+  --color-info: #17a2b8;
+  --color-light: #f8f9fa;
+  --color-dark: #343a40;
+  --color-button: #007bff;
+  --color-buttonText: #ffffff;
+  --color-buttonHover: #0056b3;
+  --color-border: #000000;
+  --color-inputBackground: #ffffff;
+  --color-inputColor: #007bff;
+  --color-inputBorder: #007bff;
+
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --font-size: 16px;
+  --font-sizeSmall: 14px;
+  --font-sizeLarge: 18px;
+  --font-weight: normal;
+  --font-weightBold: bold;
+
+  --spacing-buttonPadding: 0px;
+  --spacing-containerMargin: 60px;
+  --spacing-inputWidth: 380px;
+  --spacing-inputHeight: 100px;
+  --spacing-inputMarginBottom: 5px;
+  --spacing-borderWidth: 2px;
+  --spacing-borderRadius: 4px;
+
+  --effect-boxShadow: none;
+  --effect-borderStyle: inset;
+  --effect-transition: all 0.3s ease;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+  color: var(--color-foreground);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: var(--effect-transition);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.App {
+  text-align: center;
+  display: flex;
+  margin: var(--spacing-containerMargin);
+  background-color: var(--color-background);
+  border-style: var(--effect-borderStyle);
+  border-width: var(--spacing-borderWidth);
+  border-color: var(--color-border);
+  box-shadow: var(--effect-boxShadow);
+  transition: var(--effect-transition);
+}
+
+.btn {
+  padding: var(--spacing-buttonPadding);
+  transition: var(--effect-transition);
+}
+
+.btn-outline-primary {
+  background-color: var(--color-button) !important;
+  color: var(--color-buttonText) !important;
+  border-color: var(--color-border) !important;
+  transition: var(--effect-transition);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--color-buttonHover) !important;
+  color: var(--color-buttonText) !important;
+  border-color: var(--color-border) !important;
+  box-shadow: var(--effect-boxShadow);
+}
+
+.inputfield {
+  display: flex;
+  width: var(--spacing-inputWidth);
+  height: var(--spacing-inputHeight);
+  border-color: var(--color-inputBorder);
+  border-width: 1px;
+  border-radius: var(--spacing-borderRadius);
+  color: var(--color-inputColor);
+  background-color: var(--color-inputBackground);
+  flex: 1;
+  margin-bottom: var(--spacing-inputMarginBottom);
+  font-family: var(--font-family);
+  font-size: var(--font-sizeLarge);
+  transition: var(--effect-transition);
+}
+
+.inputfield:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+@media screen and (max-width: 600px) {
+  .inputfield {
+    width: 243px;
+    height: 80px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .inputfield {
+    width: 480px;
+    height: 80px;
+  }
+}
+
+hr {
+  display: block;
+  border-style: dotted;
+  border-width: 3px;
+  border-color: var(--color-border);
+  transition: var(--effect-transition);
+}
+
+.design {
+  border-color: var(--color-border);
+  border-width: var(--spacing-borderWidth);
+}
+
+h2 {
+  color: var(--color-foreground);
+  font-family: var(--font-family);
+  font-weight: var(--font-weightBold);
+  transition: var(--effect-transition);
+}
+
+.dropdown-menu {
+  background-color: var(--color-background);
+  border-color: var(--color-border);
+  transition: var(--effect-transition);
+}
+
+.dropdown-item {
+  color: var(--color-foreground);
+  transition: var(--effect-transition);
+}
+
+.dropdown-item:hover {
+  background-color: var(--color-primary);
+  color: var(--color-buttonText);
+}
+
+.dropdown-item.active {
+  background-color: var(--color-primary);
+  color: var(--color-buttonText);
+}

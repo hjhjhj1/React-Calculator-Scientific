@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { IoIosSwitch } from "react-icons/io";
 import { FaBackspace } from "react-icons/fa";
+import ThemeSwitcher from "./theme/ThemeSwitcher";
 import "./App.css";
 
 function App() {
@@ -80,7 +81,10 @@ function App() {
     <div className="App">
       <Container fluid>
         <div>
-          <h2> React Calculator </h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <h2> React Calculator </h2>
+            <ThemeSwitcher />
+          </div>
           <br />
           <br />
           <Row className="justify-content-md-center" xs={1} md={4} lg={4}>
