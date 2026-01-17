@@ -4,14 +4,20 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
 import { IoIosSwitch } from "react-icons/io";
-import { FaBackspace } from "react-icons/fa";
+import { FaBackspace, FaChartBar, FaDatabase } from "react-icons/fa";
 import "./App.css";
+import HistoryManager from "./history/HistoryManager";
+import AnalysisPanel from "./components/AnalysisPanel";
 
 function App() {
   const [result, setResult] = useState("");
   const inputRef = useRef(null);
   const [show, setShow] = useState(false);
+  const [showAnalysis, setShowAnalysis] = useState(false);
+  const [currentExpression, setCurrentExpression] = useState("");
+  const [showHistoryBtn, setShowHistoryBtn] = useState(false);
 
   function numberLog10() {
     setResult(Math.log10(result).toString());
@@ -65,16 +71,24 @@ function App() {
   }
 
   function calculate() {
-    //if (result === "log.name") {
-    //setResult(Math.log(result).toString());
-    //}
-    //else {
     try {
-      setResult(eval(result).toString());
+      const expression = result;
+      const calculationResult = eval(expression).toString();
+      setResult(calculationResult);
+      HistoryManager.addRecord(expression, calculationResult, null);
+      setCurrentExpression(expression);
+      setShowHistoryBtn(true);
     } catch (error) {
-      setResult(alert("Clear All then Enter again"));
+      const expression = result;
+      const errorInfo = {
+        type: error.name,
+        message: error.message
+      };
+      HistoryManager.addRecord(expression, null, errorInfo);
+      alert("计算错误，请检查表达式后重试\n错误: " + error.message);
+      setCurrentExpression(expression);
+      setShowHistoryBtn(true);
     }
-    //}
   }
   return (
     <div className="App">
@@ -392,8 +406,42 @@ function App() {
               </Button>
             </Col>
           </Row>
+          {showHistoryBtn && (
+            <Row className="justify-content-md-center mt-3">
+              <Col xs="12" className="text-center">
+                <Button
+                  variant="success"
+                  onClick={() => setShowAnalysis(true)}
+                  size="sm"
+                  className="mr-2"
+                >
+                  <FaChartBar className="mr-1" /> 查看分析
+                </Button>
+                <Button
+                  variant="info"
+                  onClick={() => {
+                    HistoryManager.generateTestData(50);
+                    alert('已生成50条测试数据！');
+                  }}
+                  size="sm"
+                >
+                  <FaDatabase className="mr-1" /> 生成测试数据
+                </Button>
+              </Col>
+            </Row>
+          )}
         </div>
       </Container>
+      <Modal
+        show={showAnalysis}
+        onHide={() => setShowAnalysis(false)}
+        size="xl"
+        centered
+      >
+        <Modal.Body style={{ padding: 0 }}>
+          <AnalysisPanel onClose={() => setShowAnalysis(false)} />
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }
