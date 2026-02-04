@@ -5,21 +5,28 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { IoIosSwitch } from "react-icons/io";
-import { FaBackspace } from "react-icons/fa";
+import { FaBackspace, FaChartBar } from "react-icons/fa";
+import { saveCalculation } from "./utils/calculationHistory";
+import AnalyticsDashboard from "./components/AnalyticsDashboard";
 import "./App.css";
 
 function App() {
   const [result, setResult] = useState("");
   const inputRef = useRef(null);
   const [show, setShow] = useState(false);
+  const [showAnalytics, setShowAnalytics] = useState(false);
 
   function numberLog10() {
-    setResult(Math.log10(result).toString());
+    const newResult = Math.log10(result).toString();
+    saveCalculation(`log10(${result})`, newResult, null);
+    setResult(newResult);
   }
 
   function fact() {
     const r = factorial(n);
-    return setResult(r.toString());
+    const newResult = r.toString();
+    saveCalculation(`fact(${n})`, newResult, null);
+    return setResult(newResult);
   }
 
   const n = result;
@@ -34,22 +41,32 @@ function App() {
   }
 
   function numberLog() {
-    setResult(Math.log(result).toString());
+    const newResult = Math.log(result).toString();
+    saveCalculation(`ln(${result})`, newResult, null);
+    setResult(newResult);
   }
 
   function exponent() {
-    setResult(Math.exp(result).toString());
+    const newResult = Math.exp(result).toString();
+    saveCalculation(`exp(${result})`, newResult, null);
+    setResult(newResult);
   }
   function sin() {
-    setResult(Math.sin(result).toString());
+    const newResult = Math.sin(result).toString();
+    saveCalculation(`sin(${result})`, newResult, null);
+    setResult(newResult);
   }
 
   function inversion() {
-    setResult((1 / result).toString());
+    const newResult = (1 / result).toString();
+    saveCalculation(`1/(${result})`, newResult, null);
+    setResult(newResult);
   }
 
   function squareroot() {
-    setResult(Math.sqrt(result).toString());
+    const newResult = Math.sqrt(result).toString();
+    saveCalculation(`sqrt(${result})`, newResult, null);
+    setResult(newResult);
   }
 
   function handleClick(e) {
@@ -65,23 +82,31 @@ function App() {
   }
 
   function calculate() {
-    //if (result === "log.name") {
-    //setResult(Math.log(result).toString());
-    //}
-    //else {
     try {
-      setResult(eval(result).toString());
+      const calculatedResult = eval(result).toString();
+      saveCalculation(result, calculatedResult, null);
+      setResult(calculatedResult);
     } catch (error) {
-      setResult(alert("Clear All then Enter again"));
+      saveCalculation(result, null, { type: error.name, message: error.message });
+      alert("Clear All then Enter again");
     }
-    //}
   }
   return (
     <div className="App">
       <Container fluid>
         <div>
           <h2> React Calculator </h2>
-          <br />
+          <Row className="justify-content-md-center" xs={1} md={4} lg={4}>
+            <Col xs="12" className="text-center">
+              <Button
+                variant="outline-info"
+                onClick={() => setShowAnalytics(true)}
+                className="analytics-btn"
+              >
+                <FaChartBar /> 数据分析
+              </Button>
+            </Col>
+          </Row>
           <br />
           <Row className="justify-content-md-center" xs={1} md={4} lg={4}>
             <Form>
@@ -394,6 +419,10 @@ function App() {
           </Row>
         </div>
       </Container>
+      <AnalyticsDashboard
+        show={showAnalytics}
+        onHide={() => setShowAnalytics(false)}
+      />
     </div>
   );
 }
