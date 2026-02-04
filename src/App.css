@@ -59,3 +59,25 @@ hr
   border-color: #000 ;
   border-width: 2px;
 }
+
+.analytics-modal .modal-body {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.stat-card {
+  transition: transform 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card h3 {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.analytics-btn {
+  margin: 10px 0;
+}
